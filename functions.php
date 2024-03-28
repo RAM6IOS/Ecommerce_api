@@ -149,7 +149,7 @@ function sndEmail($addAddress ,$verificationCode){
    
     
     require 'vendor/autoload.php';
-    $mail = new PHPMailer();
+    $mail = new PHPMailer(true);
 
     
     try {
