@@ -11,7 +11,7 @@ try {
         $phone = $_POST["user_phone"];
         $verfiycode = rand(100000, 999999);
         // تشفير كلمة المرور
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        //$hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 
         $stmt = $con->prepare("SELECT * FROM `user` WHERE `user_email` = ?  OR  `user_phone` = ?");
@@ -33,11 +33,19 @@ try {
             $stmt = $con->prepare("INSERT INTO `user`(`user_name`, `user_email`, `user_password`,`user_phone`,`user_verfiycode`) VALUES (?, ?, ? ,? ,?)");
         // جلب عدد الصفوف المتأثرة
 
-            $stmt->execute(array($username, $email, $hashed_password ,$phone ,$verfiycode));
+            $stmt->execute(array($username, $email, $password ,$phone ,$verfiycode));
             // جلب ID السجل الأخير المُدخل
             $userId = $con->lastInsertId();
-            sndEmail( $email , $verfiycode);
-            echo json_encode(['status' => 'success', 'data' =>  $userId]);
+            // إعداد وتنفيذ الاستعلام
+            $stmt = $con->prepare("SELECT * FROM `user` WHERE `user_email` = ? ");
+            // Array
+    $stmt->execute(array($email));
+    //استرجاع بيانات المستخدم المُدخل
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+           // sndEmail( $email , $verfiycode);
+        
+            echo json_encode(['status' => 'success', 'data' =>  $user ]);
         }
     } else {
         echo json_encode(['status' => 'failure', 'message' => 'Missing POST data']);
