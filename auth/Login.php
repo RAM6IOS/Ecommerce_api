@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 if($_SERVER["REQUEST_METHOD"] == "POST") { 
     $email = $_POST['user_email'];
-    $password = $_POST['user_password'];
+    $password = sha1($_POST['user_password']) ;
     $stmt = $con->prepare("SELECT * FROM `user` WHERE `user_email` = ?  AND  `user_password` = ? ");
 
     $stmt->execute(array($email  , $password));
@@ -48,8 +48,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         echo json_encode(['status' => 'Invalid']);
         
     }
-    /*
     
+    /*
     if ($user) {
         // تحقق من صحة كلمة المرور
         if (password_verify($password, $user['user_password'])) {
@@ -67,6 +67,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         return;
     }
     */
+    
 }
 
 ?>
