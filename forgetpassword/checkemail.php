@@ -8,7 +8,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $stmt = $con->prepare("SELECT * FROM `user` WHERE `user_email` = ?  ");
 
-    $stmt->execute(array($email  ));
+    $stmt->execute(array($email ));
     $count = $stmt->rowCount();
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -16,8 +16,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if($count > 0) {
         //sndEmail( $email , $verfiycode);
-        $stmt = $con->prepare("UPDATE `user` SET  `user_verfiycode` = ?  ");
-        $stmt->execute(array( $verfiycode ));
+        $stmt = $con->prepare("UPDATE `user` SET  `user_verfiycode` = ?  WHERE `user_email` = ? ");
+        $stmt->execute(array( $verfiycode , $email ));
         $count1 = $stmt->rowCount();
 
         if($count1 > 0) { 
