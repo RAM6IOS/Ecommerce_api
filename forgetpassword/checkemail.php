@@ -8,11 +8,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     
     $stmt = $con->prepare("SELECT * FROM `user` WHERE `user_email` = ?  ");
 
-    $stmt->execute(array($email ));
+    $stmt->execute(array($email));
     $count = $stmt->rowCount();
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
 
     if($count > 0) {
         //sndEmail( $email , $verfiycode);
@@ -23,10 +22,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         if($count1 > 0) { 
             echo json_encode(['status' => 'success']);
         } 
-
-
-        
-
     } else {
         echo json_encode(['status' => 'Invalid']);
         

@@ -1,5 +1,13 @@
 <?php 
 
+include "./Connect.php";
+include "./functions.php";
+
+
+
+getAllData("user" ,"1 = 1");
+
+/*
 include './connect.php';
 include "./functions.php";
 $table = "user";
@@ -12,3 +20,4 @@ $data = array(
 //"verfiycode" => "3243243",       
 );
 $count = insertData($table , $data);
+*/
