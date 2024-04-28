@@ -19,9 +19,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute(array( $verfiycode , $email ));
         $count1 = $stmt->rowCount();
 
-        if($count1 > 0) { 
-            echo json_encode(['status' => 'success']);
-        } 
+        echo json_encode(['status' => 'success']);
+        
     } else {
         echo json_encode(['status' => 'Invalid']);
         
