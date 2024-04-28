@@ -12,15 +12,10 @@ try {
         $verfiycode = rand(100000, 999999);
         // تشفير كلمة المرور
         //$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-
         $stmt = $con->prepare("SELECT * FROM `user` WHERE `user_email` = ?  OR  `user_phone` = ?");
         $stmt->execute(array($email , $phone));
 
         $count = $stmt->rowCount();
-
-
-
         if ($count > 0) {
             
             echo json_encode(['status' => 'failure']);
