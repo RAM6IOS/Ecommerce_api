@@ -33,15 +33,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['user_email'];
     $password = sha1($_POST['user_password']) ;
     $stmt = $con->prepare("SELECT * FROM `user` WHERE `user_email` = ?  AND  `user_password` = ? ");
-
     $stmt->execute(array($email  , $password));
     $count = $stmt->rowCount();
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
     if($count > 0) {
-        echo json_encode(['status' => 'success']);
+        echo json_encode(['status' => 'success' ,'data' =>  $user]);
         
 
     } else {
