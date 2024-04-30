@@ -5,9 +5,7 @@ include "../functions.php";
 if($_SERVER["REQUEST_METHOD"] == "POST") { 
     $email = $_POST['user_email'];
     $verfiycode = rand(100000, 999999);
-    
     $stmt = $con->prepare("SELECT * FROM `user` WHERE `user_email` = ?  ");
-
     $stmt->execute(array($email));
     $count = $stmt->rowCount();
 
