@@ -10,7 +10,13 @@ $alldata = array();
     $stmt->execute(array());
     $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    $stmt = $con->prepare("SELECT * FROM `items` ");
+    $count = $stmt->rowCount();
+    $stmt->execute(array());
+    $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     $alldata['categories'] = $user;
+    $alldata["items"] = $items ;
         echo json_encode(['status' => 'success' ,'data' =>  $alldata]);
         
 
