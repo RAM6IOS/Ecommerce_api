@@ -10,7 +10,7 @@ $alldata = array();
     $stmt->execute(array());
     $user = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $stmt = $con->prepare("SELECT * FROM `items` ");
+    $stmt = $con->prepare("SELECT * FROM `items` where `items_active` != 0    ");
     $count = $stmt->rowCount();
     $stmt->execute(array());
     $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
