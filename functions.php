@@ -10,6 +10,30 @@ function filterRequest($requestname)
   return  htmlspecialchars(strip_tags($_POST[$requestname]));
 }
 
+
+
+    function addItem(string $filename, array $params = null) {
+        global $con;
+        // Constructing the WHERE clause with placeholders
+        $data = array();
+        if($params != null){
+            $whereClause = implode(' AND ', array_map(fn($param) => "$param = ?", array_keys($params)));
+            $stmt = $con->prepare("SELECT * FROM $filename WHERE $whereClause");
+            // Execute the prepared statement with parameters
+            $stmt->execute(array_values($params));
+        } else {
+            $stmt = $con->prepare("SELECT * FROM $filename");
+            // Execute the prepared statement with parameters
+            $stmt->execute();
+        }
+       
+        
+
+        $count  = $stmt->rowCount();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return array("data" => $data, "count" => $count);
+    }
+
 function getAllData($table, $where = null, $values = null)
 {
     global $con;
