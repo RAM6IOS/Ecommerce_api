@@ -11,6 +11,48 @@ function filterRequest($requestname)
 }
 
 
+function instardata(string $tableName ,array $columns ,array $values ){
+    try {
+    global $con;
+    $columnNames = implode(', ', $columns);
+    $placeholders = implode(', ', array_fill(0, count($values), '?'));
+    // تجهيز عبارة WHERE لتحديد الصفوف التي يجب تحديثها
+    $stmt = $con->prepare("INSERT INTO $tableName ($columnNames) VALUES ($placeholders)");
+    $stmt->execute(array_values($values));
+    $count = $stmt->rowCount();
+    // إرجاع عدد الصفوف المتأثرة
+    return array( "count" => $count);
+    } catch (PDOException $e) {
+        // يمكنك إدراج رمز خطأ مخصص هنا أو إعادة رمي الاستثناء
+        return -1;
+    }
+
+};
+function updateData2( string $tableName, array $updateFields, array $conditionFields) {
+    try {
+        global $con;
+        // تجهيز عبارة SET لتحديث الصفوف
+        $setClause = implode(', ', array_map(fn($key) => "$key = ?", array_keys($updateFields)));
+    
+        // تجهيز عبارة WHERE لتحديد الصفوف التي يجب تحديثها
+        $whereClause = implode(' AND ', array_map(fn($key) => "$key = ?", array_keys($conditionFields)));
+    
+        // إعداد الاستعلام مع الباراميترات
+        $stmt = $con->prepare("UPDATE $tableName SET $setClause WHERE $whereClause");
+    
+        // تنفيذ الاستعلام مع تمرير قيم الباراميترات
+        $stmt->execute(array_merge(array_values($updateFields), array_values($conditionFields)));
+    
+        // الحصول على عدد الصفوف التي تم تحديثها
+        $count = $stmt->rowCount();
+    
+        // إرجاع عدد الصفوف المتأثرة
+        return array( "count" => $count);
+    } catch (PDOException $e) {
+        // يمكنك إدراج رمز خطأ مخصص هنا أو إعادة رمي الاستثناء
+        return -1;
+    }
+};
 
     function addItem(string $filename, array $params = null) {
         global $con;
@@ -26,13 +68,12 @@ function filterRequest($requestname)
             // Execute the prepared statement with parameters
             $stmt->execute();
         }
-       
-        
-
         $count  = $stmt->rowCount();
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return array("data" => $data, "count" => $count);
     }
+
+    
 
 function getAllData($table, $where = null, $values = null)
 {
