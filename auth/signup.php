@@ -15,7 +15,7 @@ try {
         if ($count > 0) {
             echo json_encode(['status' => 'failure']);
         } else {
-           instardata('user',['user_name','user_email', 'user_password','user_phone','user_verfiycode'],[ $username, $email,  $password, $phone, $verfiycode]);
+        instardata('user',['user_name','user_email', 'user_password','user_phone','user_verfiycode'],[ $username, $email,  $password, $phone, $verfiycode]);
             // جلب ID السجل الأخير المُدخل
             $userId = $con->lastInsertId();
             // إعداد وتنفيذ الاستعلا>

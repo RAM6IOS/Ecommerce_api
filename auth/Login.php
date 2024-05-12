@@ -9,8 +9,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if($count > 0) {
         echo json_encode(['status' => 'success' ,'data' =>  $user]);
-        
-
     } else {
         echo json_encode(['status' => 'Invalid']);
         
